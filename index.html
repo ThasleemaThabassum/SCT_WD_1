@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thasleema Thabassum | Web Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --accent: #00e5c0;
+      --text: #f0ede8;
+      --muted: #888;
+      --nav-bg-scroll: rgba(10,10,15,0.92);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 6%;
+      transition: background 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+    }
+    nav.scrolled {
+      background: var(--nav-bg-scroll);
+      padding: 0.8rem 6%;
+      box-shadow: 0 2px 30px rgba(0,229,192,0.08);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--accent); text-decoration: none; letter-spacing: 1px; }
+    .nav-links { display: flex; list-style: none; gap: 2.5rem; }
+    .nav-links a {
+      text-decoration: none; color: var(--text); font-size: 0.9rem; font-weight: 500;
+      position: relative; padding-bottom: 4px; transition: color 0.3s;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--accent); transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); transition: all 0.3s; }
+
+    /* HERO */
+    #home { min-height: 100vh; display: flex; align-items: center; padding: 0 6%; position: relative; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 70% 40%, rgba(123,94,167,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(0,229,192,0.12) 0%, transparent 55%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; }
+    .hero-tag {
+      display: inline-block; border: 1px solid var(--accent); color: var(--accent);
+      font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 20px; margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s ease both;
+    }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.1; margin-bottom: 1.2rem; animation: fadeUp 0.7s 0.1s ease both; }
+    h1 span { color: var(--accent); }
+    .hero-sub { font-size: 1.1rem; color: var(--muted); line-height: 1.7; max-width: 520px; margin-bottom: 2.5rem; animation: fadeUp 0.7s 0.2s ease both; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.7s 0.3s ease both; }
+    .btn { padding: 0.85rem 2rem; border-radius: 6px; font-size: 0.9rem; font-weight: 500; text-decoration: none; transition: all 0.3s; cursor: pointer; }
+    .btn-primary { background: var(--accent); color: #0a0a0f; }
+    .btn-primary:hover { background: #00c9a8; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,229,192,0.3); }
+    .btn-outline { border: 1px solid var(--muted); color: var(--text); background: transparent; }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* SECTIONS */
+    section { padding: 6rem 6%; }
+    .section-label { font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+    .section-desc { color: var(--muted); font-size: 1rem; line-height: 1.8; max-width: 560px; margin-bottom: 3rem; }
+
+    /* ABOUT */
+    #about { background: var(--surface); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    .stat-card { background: var(--bg); border: 1px solid rgba(0,229,192,0.15); border-radius: 12px; padding: 1.5rem; transition: border-color 0.3s, transform 0.3s; }
+    .stat-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .stat-card .num { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--accent); }
+    .stat-card p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+    .about-right p { color: var(--muted); line-height: 1.9; margin-bottom: 1rem; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+    .skill-chip { background: var(--surface); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 1.2rem 1rem; text-align: center; font-size: 0.9rem; font-weight: 500; transition: all 0.3s; cursor: default; }
+    .skill-chip:hover { border-color: var(--accent); background: rgba(0,229,192,0.07); color: var(--accent); transform: translateY(-3px); }
+    .skill-chip .icon { font-size: 1.6rem; margin-bottom: 0.4rem; display: block; }
+
+    /* PROJECTS */
+    #projects { background: var(--surface); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .project-card { background: var(--bg); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); border-color: rgba(0,229,192,0.25); }
+    .card-banner { height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
+    .card-body { padding: 1.4rem; }
+    .card-body h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .card-body p { color: var(--muted); font-size: 0.875rem; line-height: 1.6; margin-bottom: 1rem; }
+    .card-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .tag { font-size: 0.7rem; padding: 3px 10px; border-radius: 20px; background: rgba(0,229,192,0.1); color: var(--accent); border: 1px solid rgba(0,229,192,0.2); }
+
+    /* CONTACT */
+    .contact-wrap { max-width: 620px; }
+    .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem; }
+    .contact-link { display: flex; align-items: center; gap: 0.5rem; padding: 0.9rem 1.6rem; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; text-decoration: none; color: var(--text); font-size: 0.9rem; transition: all 0.3s; }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); background: rgba(0,229,192,0.06); }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 2rem 6%; border-top: 1px solid rgba(255,255,255,0.06); color: var(--muted); font-size: 0.85rem; }
+    footer span { color: var(--accent); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--nav-bg-scroll); backdrop-filter: blur(12px); padding: 1rem 6%; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .nav-links a::after { display: none; }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="#home" class="nav-logo">TT.</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <section id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <span class="hero-tag">✦ Web Development Intern @ SkillCraft Technology</span>
+      <h1>Hi, I'm <span>Thasleema</span><br/>Thabassum</h1>
+      <p class="hero-sub">
+        B.Tech CSE (Data Science) student at Malla Reddy Engineering College for Women.
+        I build clean, user-friendly web experiences and love turning ideas into real products.
+      </p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-left">
+        <p class="section-label">About Me</p>
+        <h2 class="section-title">Passionate about building for the web</h2>
+        <div class="about-stats">
+          <div class="stat-card"><span class="num">3rd</span><p>Year BTech</p></div>
+          <div class="stat-card"><span class="num">CSE</span><p>Data Science</p></div>
+          <div class="stat-card"><span class="num">4+</span><p>Projects Built</p></div>
+          <div class="stat-card"><span class="num">∞</span><p>Curiosity</p></div>
+        </div>
+      </div>
+      <div class="about-right">
+        <p>I'm Thasleema Thabassum, a third-year B.Tech CSE (Data Science) student from Malla Reddy Engineering College for Women, Hyderabad.</p>
+        <p>Currently interning at <strong style="color:var(--accent)">SkillCraft Technology</strong> as a Web Development Intern, where I'm building real-world projects using HTML, CSS, JavaScript, and more.</p>
+        <p>I'm passionate about creating functional, visually appealing web applications and continuously expanding my skills in both frontend development and data science.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <p class="section-label">What I Know</p>
+    <h2 class="section-title">Skills & Technologies</h2>
+    <p class="section-desc">Technologies I've worked with during my studies and internship projects.</p>
+    <div class="skills-grid">
+      <div class="skill-chip"><span class="icon">🌐</span>HTML5</div>
+      <div class="skill-chip"><span class="icon">🎨</span>CSS3</div>
+      <div class="skill-chip"><span class="icon">⚡</span>JavaScript</div>
+      <div class="skill-chip"><span class="icon">🐍</span>Python</div>
+      <div class="skill-chip"><span class="icon">☕</span>Java</div>
+      <div class="skill-chip"><span class="icon">🗄️</span>SQL</div>
+      <div class="skill-chip"><span class="icon">📊</span>Data Analysis</div>
+      <div class="skill-chip"><span class="icon">🔧</span>Git & GitHub</div>
+      <div class="skill-chip"><span class="icon">📱</span>Responsive Design</div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <p class="section-label">My Work</p>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-desc">Projects built during my SkillCraft Technology internship.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="card-banner" style="background:linear-gradient(135deg,#0a1628,#1a2f4a)">🌐</div>
+        <div class="card-body">
+          <h3>Responsive Landing Page</h3>
+          <p>A fully responsive personal portfolio with an interactive navigation menu that changes style on scroll and hover.</p>
+          <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-banner" style="background:linear-gradient(135deg,#0a1f0a,#1a3a1a)">⏱️</div>
+        <div class="card-body">
+          <h3>Stopwatch Web App</h3>
+          <p>Interactive stopwatch with start, pause, reset and lap time tracking functionality.</p>
+          <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-banner" style="background:linear-gradient(135deg,#1a0a1f,#2f1a3a)">🧠</div>
+        <div class="card-body">
+          <h3>Quiz Game App</h3>
+          <p>Interactive multiple-choice quiz game with score tracking and multiple question types.</p>
+          <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-banner" style="background:linear-gradient(135deg,#1a0f00,#3a2000)">✅</div>
+        <div class="card-body">
+          <h3>To-Do Web App</h3>
+          <p>Task manager with add, edit, complete, delete and date/time scheduling features.</p>
+          <div class="card-tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-wrap">
+      <p class="section-label">Let's Connect</p>
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="section-desc">I'm open to opportunities, collaborations, and conversations. Feel free to reach out!</p>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/thasleemathabassum/" target="_blank" class="contact-link">💼 LinkedIn</a>
+        <a href="https://github.com/" target="_blank" class="contact-link">🐙 GitHub</a>
+        <a href="mailto:thasleema@email.com" class="contact-link">✉️ Email Me</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Made with <span>♥</span> by Thasleema Thabassum &nbsp;|&nbsp; Web Development Intern @ SkillCraft Technology</p>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', function() {
+      var nav = document.getElementById('navbar');
+      if (window.scrollY > 50) { nav.classList.add('scrolled'); }
+      else { nav.classList.remove('scrolled'); }
+    });
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+  </script>
+</body>
+</html>
